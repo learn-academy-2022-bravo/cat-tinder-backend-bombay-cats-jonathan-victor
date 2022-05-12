@@ -11,9 +11,15 @@ class CatsController < ApplicationController
         render json: cat
     end
     
-    # def destroy
-    
-    # end
+    def destroy
+        cat = Cat.find(params[:id])
+        cats = Cat.all
+        if cat.destroy
+            render json: cats
+        else
+            render json: cats.errors
+        end
+    end
     
     def create
     cat = Cat.create(cat_params)

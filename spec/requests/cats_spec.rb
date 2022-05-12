@@ -63,4 +63,24 @@ RSpec.describe "Cats", type: :request do
 
     end
   end
+  describe "Delete /destroy" do
+    it "deletes a cat from the directory" do
+      cat_params = {
+        cat:   {
+          name: 'Homer',
+          age: 12,
+          enjoys: 'Food mostly, really just food.',
+          image: 'https://images.unsplash.com/photo-1573865526739-10659fec78a5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1015&q=80'
+        }
+      }
+      post"/cats", params:cat_params
+      cat = Cat.first
+
+      delete"/cats/#{cat.id}", params: cat_params
+
+      expect(response).to have_http_status(200)
+
+      expect(Cat.find_by(id: cat.id)).to be_nil 
+    end
+  end
 end
